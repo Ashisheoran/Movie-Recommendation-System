@@ -9,9 +9,9 @@ load_dotenv()
 
 api_key = os.getenv('api_key')
 
-movies_dict = pickle.load(open('models/movies.pkl','rb'))
+movies_dict = pickle.load(open('movies.pkl','rb'))
 movies = pd.DataFrame(movies_dict)
-similarity = pickle.load(open('models/similarity.pkl','rb'))
+similarity = pickle.load(open('similarity.pkl','rb'))
 
 def fetch_poster(movie_id):
     url = f'https://api.themoviedb.org/3/movie/{movie_id}'
@@ -71,5 +71,6 @@ if st.button('Recommend'):
     with col5:
         st.text(names[4])
         st.image(posters[4])
+
 
     
