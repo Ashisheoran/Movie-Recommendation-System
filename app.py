@@ -1,0 +1,75 @@
+import streamlit as st
+import pickle
+import pandas as pd
+import requests
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+api_key = os.getenv('api_key')
+
+movies_dict = pickle.load(open('models/movies.pkl','rb'))
+movies = pd.DataFrame(movies_dict)
+similarity = pickle.load(open('models/similarity.pkl','rb'))
+
+def fetch_poster(movie_id):
+    url = f'https://api.themoviedb.org/3/movie/{movie_id}'
+    params = {"api_key" : api_key,
+              "language" : 'en-US'
+              }
+
+    response =  requests.get(url,params)
+    data = response.json()
+    return "https://image.tmdb.org/t/p/w500" + data["poster_path"]
+
+def recommand(movie):
+    movie_index = movies[movies['title'] == movie].index[0]
+    distances = sorted(list(enumerate(similarity[movie_index])),reverse=True,key=lambda x:x[1])
+    
+    recommanded_movies = []
+    recommanded_movies_posters = []
+
+    for i in distances[1:6]:
+        recommanded_movies.append(movies.iloc[i[0]].title)
+        # fetch poster from API
+        movie_id = movies.iloc[i[0]].movie_id
+        recommanded_movies_posters.append(fetch_poster(movie_id))   
+
+    return recommanded_movies,recommanded_movies_posters
+
+st.title('Movie Recommender System')
+
+movie_list = movies['title'].values
+selected_movie_name = st.selectbox(
+    'Select/Write Movie Name',
+    movie_list
+)
+
+if st.button('Recommend'):
+    names, posters = recommand(selected_movie_name)
+
+    col1, col2, col3, col4, col5 = st.columns(5)
+
+    with col1:
+        st.text(names[0])
+        st.image(posters[0])
+
+    with col2:
+        st.text(names[1])
+        st.image(posters[1])
+
+    with col3:
+        st.text(names[2])
+        st.image(posters[2])
+    
+    with col4:
+        st.text(names[3])
+        st.image(posters[3])
+
+    
+    with col5:
+        st.text(names[4])
+        st.image(posters[4])
+
+    
