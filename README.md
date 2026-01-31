@@ -80,7 +80,7 @@ streamlit run app.py
 
 ## 📦 Dataset
 
-- TMDB 5000 Movies Dataset  
+- TMDB 5000 Movies Dataset --> https://www.kaggle.com/datasets/tmdb/tmdb-movie-metadata
 - Source: Kaggle  
 - Files used:
   - tmdb_5000_movies.csv  
