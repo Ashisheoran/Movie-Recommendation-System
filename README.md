@@ -116,7 +116,7 @@ streamlit run app.py
 Ashish  
 Aspiring Data Scientist | Machine Learning Enthusiast  
 
-GitHub: https://github.com/Ashisheoran 
+Linkedin: https://www.linkedin.com/in/ashisheoran/
 
 Portfolio: https://ashisheoran.github.io/portfolio/
 
